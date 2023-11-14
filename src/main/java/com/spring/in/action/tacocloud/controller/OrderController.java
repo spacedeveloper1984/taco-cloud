@@ -1,6 +1,8 @@
 package com.spring.in.action.tacocloud.controller;
 
+import com.spring.in.action.tacocloud.dao.OrderRepository;
 import com.spring.in.action.tacocloud.model.TacoOrder;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -16,7 +18,10 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("tacoOrder")
+@AllArgsConstructor
 public class OrderController {
+
+    private final OrderRepository orderRepository;
 
     @GetMapping("/current")
     public String orderForm() {
@@ -28,7 +33,7 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-
+        orderRepository.save(order);
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
 
