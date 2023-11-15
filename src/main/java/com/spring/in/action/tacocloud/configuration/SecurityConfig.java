@@ -1,18 +1,15 @@
 package com.spring.in.action.tacocloud.configuration;
 
+import com.spring.in.action.tacocloud.dao.UserRepository;
+import com.spring.in.action.tacocloud.model.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 @Configuration
 public class SecurityConfig {
@@ -23,16 +20,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        List<UserDetails> userDetailsList = new ArrayList<>();
-        userDetailsList.add(new User("user1", encoder.encode("password"), Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_USER")
-        )));
-
-        userDetailsList.add(new User("user2", encoder.encode("password"), Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_USER")
-        )));
-
-        return new InMemoryUserDetailsManager(userDetailsList);
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return username -> {
+            Optional<User> user = userRepository.findByUsername(username);
+            return user.orElseThrow(
+                    () -> new UsernameNotFoundException("User " + username + " not found")
+            );
+        };
     }
 }
