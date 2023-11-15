@@ -1,11 +1,24 @@
 package com.spring.in.action.tacocloud.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Persistable;
 
 @Data
-public class Ingredient {
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+public class Ingredient implements Persistable<String> {
 
-    private final String id;
-    private final String name;
-    private final IngredientType type;
+    @Id
+    private String id;
+    private String name;
+    private IngredientType type;
+
+    @Override
+    public boolean isNew() {
+        return true;
+    }
 }

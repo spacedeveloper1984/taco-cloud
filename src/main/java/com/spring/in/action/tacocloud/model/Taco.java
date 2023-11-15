@@ -1,6 +1,7 @@
 package com.spring.in.action.tacocloud.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -9,8 +10,10 @@ import java.util.List;
 
 @Data
 public class Taco {
+
+    @Id
     private Long id;
-    private LocalDate createdAt;
+    private LocalDate createdAt = LocalDate.now();
     @NotNull
     @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;

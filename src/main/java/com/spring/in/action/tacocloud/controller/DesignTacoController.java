@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
@@ -27,7 +28,7 @@ public class DesignTacoController {
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = ingredientRepository.findAll();
+        Iterable<Ingredient> ingredients = ingredientRepository.findAll();
 
         for (IngredientType type : IngredientType.values()) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
@@ -60,10 +61,9 @@ public class DesignTacoController {
         return "redirect:/orders/current";
     }
 
-    private List<Ingredient> filterByType(List<Ingredient> ingredients, IngredientType type) {
-        return ingredients.stream()
+    private List<Ingredient> filterByType(Iterable<Ingredient> ingredients, IngredientType type) {
+        return StreamSupport.stream(ingredients.spliterator(), false)
                 .filter(ingredient -> type == ingredient.getType())
                 .collect(Collectors.toList());
-
     }
 }
