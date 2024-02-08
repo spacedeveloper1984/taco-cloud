@@ -39,6 +39,8 @@ public class TacoOrder {
     private LocalDate placedAt = LocalDate.now();
     @OneToMany(cascade = CascadeType.ALL)
     private List<Taco> tacos = new ArrayList<>();
+    @ManyToOne
+    private User user;
 
     public void addTaco(Taco taco) {
         tacos.add(taco);
