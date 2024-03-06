@@ -5,3 +5,5 @@ spring:
     url: jdbc:h2:mem:tacocloud;NON_KEYWORDS=user
   thymeleaf:
     cache: false
+server:
+  port: 8082

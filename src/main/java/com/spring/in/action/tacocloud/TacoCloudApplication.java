@@ -30,7 +30,6 @@ public class TacoCloudApplication {
             TacoRepository tacoRepository
     ) {
         return args -> {
-
             Ingredient flourTortilla = new Ingredient(
                     "FLTO", "Flour Tortilla", IngredientType.WRAP);
             Ingredient cornTortilla = new Ingredient(
