@@ -19,9 +19,9 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
-@AllArgsConstructor
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;

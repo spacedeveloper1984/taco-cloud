@@ -1,6 +1,7 @@
 package com.spring.in.action.tacocloud.model;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Accessors(chain = true)
 public class Taco {
 
     @Id
